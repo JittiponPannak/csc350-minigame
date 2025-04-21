@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.0.2",
     "@mui/material": "^7.0.2",
+    "minigame-web": "file:",
     "mysql2": "^3.14.0",
     "next": "15.3.0",
     "react": "^19.0.0",

@@ -3,3 +3,122 @@
   width: 50%;
   padding: 10px;
 }
+/* page.css */
+/* page.css */
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #1e1e2f, #1e1e2f);
+  color: #f0f0f0;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3rem;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0);
+}
+
+h3 {
+  color: #c0c0c0;
+  margin: 5px;
+}
+
+h2 {
+  color: #0c0c0c;
+}
+
+.paper-title {
+  padding: 10px;
+  background-color: #070707;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.4);
+  font-weight: bold;
+  text-align: center;
+  color: #f9f9f9;
+}
+
+.MuiPaper-root {
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #d1c5c5 ;
+  color: #f0f0f0;
+  font-weight: 500;
+  border-radius: 10px;
+  transition: 0.3s ease;
+}
+
+.MuiPaper-root:hover {
+  background-color: #dfdfdf ;
+}
+
+.MuiButton-contained {
+  background-color: #1976d2 ;
+  color: white ;
+  margin: 5px;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.MuiButton-contained:hover {
+  background-color: #1255a1 ;
+}
+
+#usernameField {
+  width: 250px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.quickmath-question {
+  font-size: 1.8rem;
+  padding: 15px;
+  background-color: #222;
+  color: #fff;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.timer-display {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #00e5ff;
+  text-align: center;
+  text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff;
+  margin-bottom: 10px;
+}
+
+.picture-match-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 60px);
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.picture-btn {
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  background-color: #555 ;
+  color: #fff ;
+  transition: background-color 0.3s ease;
+}
+
+.picture-btn:hover {
+  background-color: #777 ;
+}
+.game-wrapper {
+  border: 2px solid #888;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 20px;
+  background-color: #2d263b;
+}
