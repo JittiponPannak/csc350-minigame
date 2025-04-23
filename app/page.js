@@ -63,6 +63,8 @@ function MainScene() {
   const [name, setName] = useState("");
   const [gameOver, setGameOver] = useState(false);
 
+  const [tryCont, setTryCont] = useState(false);
+
   const state = {
     uid,
     mode,
@@ -70,15 +72,26 @@ function MainScene() {
     score,
     name,
     gameOver,
+    tryCont,
     setUID,
     setMode,
     setScene,
     setScore,
     setName,
     setGameOver,
+    setTryCont,
   };
 
   let content;
+
+  useEffect(() => {
+    if (state.scene === "") {
+      setTryCont(true);
+      if (!tryContinue(state)) {
+        alert("Continued from where you left off!")
+      }
+      setTryCont(false);
+    }})
 
   switch (state.scene) {
     case "main":
@@ -94,6 +107,10 @@ function MainScene() {
           </Button>
         );
       } else {
+        window.localStorage.removeItem("uid")
+
+        removeUser(state);
+
         content = (
           <div>
             <h1>GAME OVER</h1> <h3>Final Score : {state.score}</h3>{" "}
@@ -101,7 +118,7 @@ function MainScene() {
         );
       }
 
-      if (state.mode === "ranked") {
+      if (state.mode === "ranked" && state.score > 0 && !state.tryCont) {
         updateUser(state);
       }
 
@@ -134,6 +151,7 @@ function MainScene() {
     default:
       const proceed = async (mode) => {
         const name = document.getElementById("usernameField").value.trim();
+        let id;
 
         if (name === "") {
           alert("Please Input Username");
@@ -142,16 +160,20 @@ function MainScene() {
 
         if (mode === "ranked") {
           const res = await postNewUser(name);
-          if (!res.ID) {
+          id = res.ID;
+          if (!id) {
             alert(
               "Error while creating user! Please prefer playing Casual games."
             );
             return;
           }
 
-          state.setUID(res.ID);
+          id = res.ID;
+          state.setUID(id);
+          window.localStorage.setItem("uid", id)
         }
 
+        state.setUID(id)
         state.setName(name);
         state.setMode(mode);
         state.setScene("main");
@@ -188,6 +210,33 @@ function MainScene() {
   );
 }
 
+async function tryContinue(state) {
+  const uid = window.localStorage.getItem("uid")
+
+  if (uid !== null) {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${uid}`);
+    console.log("Cont")
+    console.log(res)
+    
+    if (res.ok) {
+      const dat = await res.json();
+      console.log(dat);
+
+      state.setUID(uid);
+      state.setName(dat.NAME);
+      state.setScore(dat.SCORE);
+      state.setGameOver(dat.GAMEOVER);
+
+      state.setMode("ranked");
+      state.setScene("main");
+
+      return true;
+    }
+  }
+
+  return false;
+}
+
 async function postNewUser(name) {
   const data = { NAME: name, SCORE: 0, DATE: null, GAMEOVER: false };
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api`, {
@@ -214,6 +263,23 @@ async function updateUser(state) {
   if (!res.ok) {
     const errorData = await res.json();
     throw new Error(errorData.error || "Failed to update");
+  }
+}
+async function removeUser(state) {
+  if (state.score <= 0) {
+    console.log("Remove");
+    console.log(state);
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ID: state.uid }),
+    });
+  
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Failed to update");
+    }
   }
 }
 

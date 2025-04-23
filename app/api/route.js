@@ -52,15 +52,18 @@ export async function PUT(request){
 
 export async function DELETE(request){
     try {
-        const {id} = await request.json();
+        const {ID} = await request.json();
         const [result] = await db.query(
-            'DELETE FROM MINIGAME.Users WHERE ID = ?',[id]
+            'DELETE FROM MINIGAME.Users WHERE ID = ?',[ID]
         );
+
+        /*
         if (result.affectedRows == 0){
             return NextResponse.json({error: "ID Not found"}, {status: 404});
         }
+        */
 
-        return NextResponse.json({message: "Deleted", id}, {status: 200});
+        return NextResponse.json({message: "Deleted", ID}, {status: 200});
     } catch (error){
         return NextResponse.json({error: error}, {status: 500})
     }
